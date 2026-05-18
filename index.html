@@ -297,7 +297,7 @@
             <div class="logo-container">
                 <img src="https://framerusercontent.com/images/FxGHGJ6619N3lNK2FRX1mjq8kA.png?width=1185&height=535" alt="Vraj Meridian Logo">
             </div>
-            <div class="version-tag">Version 1.21</div>
+            <div class="version-tag">Version 1.22</div>
         </div>
         
         <!-- Navigation Component -->
@@ -336,36 +336,36 @@
                         <label for="emi-amount">Loan Amount</label>
                         <div class="input-wrapper">
                             <span class="input-prefix">₹</span>
-                            <input type="text" id="emi-amount" value="50,00,000" oninput="handleCurrencyInput(this, calculateEMI)">
+                            <input type="text" id="emi-amount" placeholder="Enter loan amount" oninput="handleCurrencyInput(this, calculateEMI)">
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="emi-interest">Interest Rate (p.a.)</label>
                         <div class="input-wrapper">
                             <span class="input-prefix">%</span>
-                            <input type="number" step="0.05" id="emi-interest" value="8.5" oninput="calculateEMI()">
+                            <input type="number" step="0.05" id="emi-interest" placeholder="Enter interest rate" oninput="calculateEMI()">
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="emi-tenure">Tenure (Years)</label>
                         <div class="input-wrapper">
                             <span class="input-prefix">Yr</span>
-                            <input type="number" id="emi-tenure" value="20" oninput="calculateEMI()">
+                            <input type="number" id="emi-tenure" placeholder="Enter tenure in years" oninput="calculateEMI()">
                         </div>
                     </div>
                 </div>
                 <div class="results-panel">
                     <div class="result-item">
                         <div class="result-label">Monthly EMI Installment</div>
-                        <div class="result-value highlight" id="render-emi">₹0</div>
+                        <div class="result-value highlight" id="render-emi">₹ 0</div>
                     </div>
                     <div class="result-item">
                         <div class="result-label">Total Interest Payable</div>
-                        <div class="result-value" id="render-total-interest">₹0</div>
+                        <div class="result-value" id="render-total-interest">₹ 0</div>
                     </div>
                     <div class="result-item">
                         <div class="result-label">Total Amount (Principal + Interest)</div>
-                        <div class="result-value" id="render-total-amount">₹0</div>
+                        <div class="result-value" id="render-total-amount">₹ 0</div>
                     </div>
                 </div>
             </div>
@@ -383,28 +383,28 @@
                         <label for="el-salary">Gross Monthly Income / Salary</label>
                         <div class="input-wrapper">
                             <span class="input-prefix">₹</span>
-                            <input type="text" id="el-salary" value="1,00,000" oninput="handleCurrencyInput(this, calculateEligibility)">
+                            <input type="text" id="el-salary" placeholder="Enter gross monthly salary" oninput="handleCurrencyInput(this, calculateEligibility)">
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="el-age">Age of Applicant</label>
                         <div class="input-wrapper">
                             <span class="input-prefix">Yo</span>
-                            <input type="number" id="el-age" value="30" min="18" max="70" oninput="calculateEligibility()">
+                            <input type="number" id="el-age" placeholder="Enter applicant age" min="18" max="70" oninput="calculateEligibility()">
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="el-obligations">Existing Monthly EMI Obligations</label>
                         <div class="input-wrapper">
                             <span class="input-prefix">₹</span>
-                            <input type="text" id="el-obligations" value="15,000" oninput="handleCurrencyInput(this, calculateEligibility)">
+                            <input type="text" id="el-obligations" placeholder="Enter current EMIs if any" oninput="handleCurrencyInput(this, calculateEligibility)">
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="el-interest">Expected Interest Rate (p.a.)</label>
                         <div class="input-wrapper">
                             <span class="input-prefix">%</span>
-                            <input type="number" step="0.05" id="el-interest" value="8.5" oninput="calculateEligibility()">
+                            <input type="number" step="0.05" id="el-interest" placeholder="Enter expected interest rate" oninput="calculateEligibility()">
                         </div>
                     </div>
                 </div>
@@ -419,11 +419,11 @@
                     </div>
                     <div class="result-item">
                         <div class="result-label">Max Affordable Monthly EMI Capability</div>
-                        <div class="result-value" id="render-el-emi">₹0</div>
+                        <div class="result-value" id="render-el-emi">₹ 0</div>
                     </div>
                     <div class="result-item">
                         <div class="result-label">Eligible Loan Amount Estimate</div>
-                        <div class="result-value success" id="render-el-loan">₹0</div>
+                        <div class="result-value success" id="render-el-loan">₹ 0</div>
                     </div>
                 </div>
             </div>
@@ -442,28 +442,28 @@
                         <label for="ps-carpet">Carpet Area</label>
                         <div class="input-wrapper">
                             <span class="input-prefix">Sq</span>
-                            <input type="number" id="ps-carpet" value="700" oninput="runPriceEngine('forward')">
+                            <input type="number" id="ps-carpet" placeholder="Enter carpet area (sqft)" oninput="runPriceEngine('forward')">
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="ps-rate">Per Sq. Ft. Price</label>
                         <div class="input-wrapper">
                             <span class="input-prefix">₹</span>
-                            <input type="text" id="ps-rate" value="10,000" oninput="handleCurrencyInput(this, function(){ runPriceEngine('forward'); })">
+                            <input type="text" id="ps-rate" placeholder="Enter rate per sqft" oninput="handleCurrencyInput(this, function(){ runPriceEngine('forward'); })">
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="ps-agreement">Agreement Value</label>
                         <div class="input-wrapper">
                             <span class="input-prefix">₹</span>
-                            <input type="text" id="ps-agreement" value="70,00,000" oninput="handleCurrencyInput(this, function(){ runPriceEngine('agreement-change'); })">
+                            <input type="text" id="ps-agreement" placeholder="Enter agreement value" oninput="handleCurrencyInput(this, function(){ runPriceEngine('agreement-change'); })">
                         </div>
                     </div>
                     <div class="input-group">
-                        <label style="color:#718096">Car Parking Allowance (Fixed)</label>
+                        <label>Car Parking Allowance</label>
                         <div class="input-wrapper">
-                            <span class="input-prefix" style="background:#edf2f7; border-radius:4px 0 0 4px;">₹</span>
-                            <input type="text" id="ps-parking" value="10,00,000" disabled style="background:#f7fafc; color:#a0aec0; cursor:not-allowed;">
+                            <span class="input-prefix">₹</span>
+                            <input type="text" id="ps-parking" value="10,00,000" oninput="handleCurrencyInput(this, function(){ runPriceEngine('forward'); })">
                         </div>
                     </div>
                 </div>
@@ -474,19 +474,19 @@
                         <label for="ps-allin" style="color:#805ad5; font-weight:700;">ALL-INCLUSIVE ESTIMATED PRICE</label>
                         <div class="input-wrapper">
                             <span class="input-prefix" style="color:#805ad5">₹</span>
-                            <input type="text" id="ps-allin" value="0" style="border-color:#b469ff; font-weight:700; color:#805ad5; font-size:1.1rem" oninput="handleCurrencyInput(this, function(){ runPriceEngine('backward'); })">
+                            <input type="text" id="ps-allin" placeholder="Enter targeted all-in price" style="border-color:#b469ff; font-weight:700; color:#805ad5; font-size:1.1rem" oninput="handleCurrencyInput(this, function(){ runPriceEngine('backward'); })">
                         </div>
                     </div>
 
-                    <!-- Clean Breakdowns Panel (Text Box mention of 1180 removed completely) -->
+                    <!-- Clean Breakdowns Panel -->
                     <div class="breakdown-box">
                         <div class="breakdown-row">
                             <span>Stamp Duty (6%):</span>
-                            <span id="lbl-stamp">₹0</span>
+                            <span id="lbl-stamp">₹ 0</span>
                         </div>
                         <div class="breakdown-row">
                             <span>GST (5%):</span>
-                            <span id="lbl-gst">₹0</span>
+                            <span id="lbl-gst">₹ 0</span>
                         </div>
                         <div class="breakdown-row">
                             <span>Registration Charges:</span>
@@ -494,13 +494,13 @@
                         </div>
                         <div class="breakdown-row">
                             <span>Other Charges:</span>
-                            <span id="lbl-other">₹0</span>
+                            <span id="lbl-other">₹ 0</span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="note-box">
-                *Dynamic Reverse Logic Engine: Editing the <strong>All-Inclusive Price</strong> or <strong>Agreement Value</strong> backward-extracts your dynamic base rates, maintaining constants: Parking (₹10L), Reg. (₹50k), and Development Outflows.
+                *Dynamic Reverse Logic Engine: Editing the <strong>All-Inclusive Price</strong> or <strong>Agreement Value</strong> backward-extracts your dynamic base rates, maintaining constants: Registration (₹50k) and Development Outflows. Car Parking can be edited dynamically as needed.
             </div>
         </section>
 
@@ -522,7 +522,7 @@
 
         // Indian Standard Currency formatting algorithm 
         function formatIndianCurrency(num) {
-            if (isNaN(num) || num === null) return "0";
+            if (isNaN(num) || num === null || num === 0) return "0";
             let x = Math.round(num).toString();
             let lastThree = x.substring(x.length - 3);
             let otherBits = x.substring(0, x.length - 3);
@@ -560,17 +560,22 @@
             let interestRate = parseFloat(document.getElementById('emi-interest').value) || 0;
             let tenureYears = parseFloat(document.getElementById('emi-tenure').value) || 0;
 
+            if (principal === 0 || tenureYears === 0) {
+                document.getElementById('render-emi').innerText = "₹ 0";
+                document.getElementById('render-total-interest').innerText = "₹ 0";
+                document.getElementById('render-total-amount').innerText = "₹ 0";
+                return;
+            }
+
             let monthlyInterest = (interestRate / 100) / 12;
             let numberOfPayments = tenureYears * 12;
 
             let emi = 0;
-            if (principal > 0 && numberOfPayments > 0) {
-                if (interestRate > 0) {
-                    emi = (principal * monthlyInterest * Math.pow(1 + monthlyInterest, numberOfPayments)) / 
-                          (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
-                } else {
-                    emi = principal / numberOfPayments;
-                }
+            if (interestRate > 0) {
+                emi = (principal * monthlyInterest * Math.pow(1 + monthlyInterest, numberOfPayments)) / 
+                      (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
+            } else {
+                emi = principal / numberOfPayments;
             }
 
             let totalAmount = emi * numberOfPayments;
@@ -578,7 +583,7 @@
 
             document.getElementById('render-emi').innerText = "₹ " + formatIndianCurrency(emi);
             document.getElementById('render-total-interest').innerText = "₹ " + formatIndianCurrency(totalInterest > 0 ? totalInterest : 0);
-            document.getElementById('render-total-amount').innerText = "₹ " + formatIndianCurrency(totalAmount > 0 ? totalAmount : principal);
+            document.getElementById('render-total-amount').innerText = "₹ " + formatIndianCurrency(totalAmount);
         }
 
         // 2) Loan Qualification Eligibility Engine
@@ -587,6 +592,14 @@
             let age = parseInt(document.getElementById('el-age').value) || 0;
             let obligations = getPureNumber(document.getElementById('el-obligations').value);
             let expectedInterest = parseFloat(document.getElementById('el-interest').value) || 0;
+
+            if (grossSalary === 0 || age === 0) {
+                document.getElementById('render-el-tenure').innerText = "0 Years";
+                document.getElementById('render-el-foir').innerText = "0%";
+                document.getElementById('render-el-emi').innerText = "₹ 0";
+                document.getElementById('render-el-loan').innerText = "₹ 0";
+                return;
+            }
 
             let maxTenureYears = 60 - age;
             if (maxTenureYears > 30) maxTenureYears = 30; 
@@ -618,34 +631,49 @@
         // 3) Bilateral Pricing Engine (Forward & Backward Matrices)
         function runPriceEngine(direction) {
             let carpet = parseFloat(document.getElementById('ps-carpet').value) || 0;
-            let parking = 1000000;
+            let parking = getPureNumber(document.getElementById('ps-parking').value);
             let registration = 50000;
-            let otherCharges = carpet * 1180; // Calculated stealthily behind the scenes
+            let otherCharges = carpet * 1180; 
+
+            if (carpet === 0 && direction !== 'backward') {
+                document.getElementById('lbl-stamp').innerText = "₹ 0";
+                document.getElementById('lbl-gst').innerText = "₹ 0";
+                document.getElementById('lbl-other').innerText = "₹ 0";
+                return;
+            }
 
             if (direction === 'forward') {
                 let rate = getPureNumber(document.getElementById('ps-rate').value);
                 let agreementValue = carpet * rate;
                 
-                document.getElementById('ps-agreement').value = formatIndianCurrency(agreementValue);
+                document.getElementById('ps-agreement').value = agreementValue > 0 ? formatIndianCurrency(agreementValue) : "";
                 executeTaxAndAllInCalculations(agreementValue, otherCharges, registration, parking);
             } 
             else if (direction === 'agreement-change') {
                 let agreementValue = getPureNumber(document.getElementById('ps-agreement').value);
                 let rate = carpet > 0 ? (agreementValue / carpet) : 0;
                 
-                document.getElementById('ps-rate').value = formatIndianCurrency(rate);
+                document.getElementById('ps-rate').value = rate > 0 ? formatIndianCurrency(rate) : "";
                 executeTaxAndAllInCalculations(agreementValue, otherCharges, registration, parking);
             } 
             else if (direction === 'backward') {
                 let targetAllIn = getPureNumber(document.getElementById('ps-allin').value);
+                if (targetAllIn === 0) {
+                    document.getElementById('ps-agreement').value = "";
+                    document.getElementById('ps-rate').value = "";
+                    document.getElementById('lbl-stamp').innerText = "₹ 0";
+                    document.getElementById('lbl-gst').innerText = "₹ 0";
+                    document.getElementById('lbl-other').innerText = "₹ 0";
+                    return;
+                }
                 
                 // Formula: AllIn = (1.11 * Agreement) + 50000 + OtherCharges + Parking
                 let netTaxablePool = targetAllIn - registration - otherCharges - parking;
                 let derivedAgreement = netTaxablePool > 0 ? (netTaxablePool / 1.11) : 0;
                 let derivedRate = (derivedAgreement > 0 && carpet > 0) ? (derivedAgreement / carpet) : 0;
 
-                document.getElementById('ps-agreement').value = formatIndianCurrency(derivedAgreement);
-                document.getElementById('ps-rate').value = formatIndianCurrency(derivedRate);
+                document.getElementById('ps-agreement').value = derivedAgreement > 0 ? formatIndianCurrency(derivedAgreement) : "";
+                document.getElementById('ps-rate').value = derivedRate > 0 ? formatIndianCurrency(derivedRate) : "";
 
                 let stampDuty = derivedAgreement * 0.06;
                 let gst = derivedAgreement * 0.05;
@@ -664,15 +692,8 @@
             document.getElementById('lbl-stamp').innerText = "₹ " + formatIndianCurrency(stampDuty);
             document.getElementById('lbl-gst').innerText = "₹ " + formatIndianCurrency(gst);
             document.getElementById('lbl-other').innerText = "₹ " + formatIndianCurrency(other);
-            document.getElementById('ps-allin').value = formatIndianCurrency(totalAllIn);
+            document.getElementById('ps-allin').value = totalAllIn > 0 ? formatIndianCurrency(totalAllIn) : "";
         }
-
-        // Initialize equations on load
-        window.onload = function() {
-            calculateEMI();
-            calculateEligibility();
-            runPriceEngine('forward');
-        };
     </script>
 </body>
 </html>
