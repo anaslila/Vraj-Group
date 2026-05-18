@@ -6,20 +6,26 @@
     <title>Vraj Meridian - Client Tool</title>
     <link rel="icon" type="image/png" href="https://framerusercontent.com/images/FxGHGJ6619N3lNK2FRX1mjq8kA.png?width=1185&height=535">
     
+    <!-- Premium Google Font: Jost -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Jost', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         body {
             background-color: #f4f6f9;
-            color: #333;
+            color: #2d3748;
             line-height: 1.5;
+            letter-spacing: 0.02em;
         }
         
-        /* HEADER INTEGRATION: Houses branding + navigation layout */
+        /* HEADER INTEGRATION */
         header {
             background-color: #ffffff;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -52,7 +58,7 @@
             font-weight: 600;
         }
 
-        /* COMPACT NAVIGATION: Minimize sizes for premium fit */
+        /* COMPACT NAVIGATION */
         .header-nav {
             display: flex;
             gap: 10px;
@@ -91,7 +97,7 @@
             background-color: #f7fafc;
         }
         
-        /* Pressed / Tab Active State Depth Effect Matrix */
+        /* Pressed Active State Depth Effect */
         .tab-radio:checked + .tab-label {
             background: #edf2f7;
             border-color: #3182ce;
@@ -102,14 +108,14 @@
             color: #2b6cb0;
         }
 
-        /* Content Container space allocation */
+        /* Content Container */
         .container {
             max-width: 1100px;
             margin: 25px auto;
             padding: 0 15px;
         }
         
-        /* Interface Modules Router Switch logic mapping */
+        /* Interface Modules Router Switch */
         .tool-section {
             background: #ffffff;
             border-radius: 12px;
@@ -128,6 +134,7 @@
             gap: 10px;
             border-bottom: 2px solid #edf2f7;
             padding-bottom: 10px;
+            font-weight: 600;
         }
         .section-title img {
             width: 32px;
@@ -135,7 +142,7 @@
             object-fit: contain;
         }
 
-        /* Two-column responsive calculators alignment grid */
+        /* Two-column layout alignment grid */
         .calculator-grid {
             display: grid;
             grid-template-columns: 1.1fr 0.9fr;
@@ -207,6 +214,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 2px;
+            font-weight: 600;
         }
         .result-value {
             font-size: 1.45rem;
@@ -215,9 +223,8 @@
         }
         .result-value.highlight { color: #3182ce; }
         .result-value.success { color: #38a169; }
-        .result-value.purple { color: #805ad5; }
         
-        /* Price sheet custom split alignments layout specs */
+        /* Price sheet custom split layout */
         .price-split-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -234,7 +241,7 @@
             display: flex;
             justify-content: space-between;
             font-size: 0.9rem;
-            padding: 6px 0;
+            padding: 8px 0;
             border-bottom: 1px solid #edf2f7;
         }
         .breakdown-row:last-child { border-bottom: none; }
@@ -250,7 +257,7 @@
             font-size: 0.8rem;
         }
 
-        /* MOBILE OPTIMIZATIONS (Max Viewport Tuning Ruleset) */
+        /* MOBILE OPTIMIZATIONS */
         @media (max-width: 868px) {
             header {
                 flex-direction: column;
@@ -290,10 +297,10 @@
             <div class="logo-container">
                 <img src="https://framerusercontent.com/images/FxGHGJ6619N3lNK2FRX1mjq8kA.png?width=1185&height=535" alt="Vraj Meridian Logo">
             </div>
-            <div class="version-tag">Version 1.2</div>
+            <div class="version-tag">Version 1.21</div>
         </div>
         
-        <!-- Navigation Component Stacked inside Header Module -->
+        <!-- Navigation Component -->
         <nav class="header-nav">
             <input type="radio" id="radio-emi" name="tool-tabs" class="tab-radio" checked>
             <label for="radio-emi" class="tab-label" onclick="showSection('emi-calc')">
@@ -430,7 +437,6 @@
             </div>
             
             <div class="price-split-grid">
-                <!-- User Entry Field Nodes Structure -->
                 <div class="calculator-inputs">
                     <div class="input-group">
                         <label for="ps-carpet">Carpet Area</label>
@@ -454,7 +460,7 @@
                         </div>
                     </div>
                     <div class="input-group">
-                        <label style="color:#718096">Car Parking allowance (Fixed)</label>
+                        <label style="color:#718096">Car Parking Allowance (Fixed)</label>
                         <div class="input-wrapper">
                             <span class="input-prefix" style="background:#edf2f7; border-radius:4px 0 0 4px;">₹</span>
                             <input type="text" id="ps-parking" value="10,00,000" disabled style="background:#f7fafc; color:#a0aec0; cursor:not-allowed;">
@@ -472,7 +478,7 @@
                         </div>
                     </div>
 
-                    <!-- Verified Legal and Outflow Breakdowns Panel -->
+                    <!-- Clean Breakdowns Panel (Text Box mention of 1180 removed completely) -->
                     <div class="breakdown-box">
                         <div class="breakdown-row">
                             <span>Stamp Duty (6%):</span>
@@ -487,14 +493,14 @@
                             <span>₹ 50,000</span>
                         </div>
                         <div class="breakdown-row">
-                            <span>Other Charges (₹1,180/sqft):</span>
+                            <span>Other Charges:</span>
                             <span id="lbl-other">₹0</span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="note-box">
-                *Dynamic Reverse Logic Engine: Editing the <strong>All-Inclusive Price</strong> or <strong>Agreement Value</strong> backward-extracts your dynamic base rates, maintaining constants: Parking (₹10L), Reg. (₹50k), and Development Outflows (₹1,180/sqft).
+                *Dynamic Reverse Logic Engine: Editing the <strong>All-Inclusive Price</strong> or <strong>Agreement Value</strong> backward-extracts your dynamic base rates, maintaining constants: Parking (₹10L), Reg. (₹50k), and Development Outflows.
             </div>
         </section>
 
@@ -502,13 +508,13 @@
 
     <!-- Application Engine Logic Scripts -->
     <script>
-        // Tab Display routing fix
+        // Tab Display routing
         function showSection(id) {
             document.querySelectorAll('.tool-section').forEach(sec => sec.style.display = 'none');
             document.getElementById(id).style.display = 'block';
         }
 
-        // Clean currency values for mathematical processing
+        // Clean currency values for calculation
         function getPureNumber(val) {
             let str = val.toString().replace(/,/g, '').trim();
             return parseFloat(str) || 0;
@@ -526,7 +532,7 @@
             return otherBits.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
         }
 
-        // Formatter hookup for parsing numbers inside live inputs
+        // Formatter hookup for live inputs
         function handleCurrencyInput(inputElement, callback) {
             let selectionStart = inputElement.selectionStart;
             let oldLength = inputElement.value.length;
@@ -541,7 +547,6 @@
             let formatted = formatIndianCurrency(parseInt(pureNum, 10));
             inputElement.value = formatted;
             
-            // Fix text insertion cursor tracking positions
             let newLength = formatted.length;
             selectionStart = selectionStart + (newLength - oldLength);
             inputElement.setSelectionRange(selectionStart, selectionStart);
@@ -576,7 +581,7 @@
             document.getElementById('render-total-amount').innerText = "₹ " + formatIndianCurrency(totalAmount > 0 ? totalAmount : principal);
         }
 
-        // 2) Loan Qualification Eligibility Algorithm Engine
+        // 2) Loan Qualification Eligibility Engine
         function calculateEligibility() {
             let grossSalary = getPureNumber(document.getElementById('el-salary').value);
             let age = parseInt(document.getElementById('el-age').value) || 0;
@@ -615,7 +620,7 @@
             let carpet = parseFloat(document.getElementById('ps-carpet').value) || 0;
             let parking = 1000000;
             let registration = 50000;
-            let otherCharges = carpet * 1180;
+            let otherCharges = carpet * 1180; // Calculated stealthily behind the scenes
 
             if (direction === 'forward') {
                 let rate = getPureNumber(document.getElementById('ps-rate').value);
@@ -634,9 +639,7 @@
             else if (direction === 'backward') {
                 let targetAllIn = getPureNumber(document.getElementById('ps-allin').value);
                 
-                // Deduct absolute fixed values to isolate taxable bases:
-                // AllIn = Agreement + (0.06 * Agreement) + (0.05 * Agreement) + Reg(50000) + Other + Parking
-                // AllIn = (1.11 * Agreement) + 50000 + Other + Parking
+                // Formula: AllIn = (1.11 * Agreement) + 50000 + OtherCharges + Parking
                 let netTaxablePool = targetAllIn - registration - otherCharges - parking;
                 let derivedAgreement = netTaxablePool > 0 ? (netTaxablePool / 1.11) : 0;
                 let derivedRate = (derivedAgreement > 0 && carpet > 0) ? (derivedAgreement / carpet) : 0;
