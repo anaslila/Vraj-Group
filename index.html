@@ -1,1 +1,816 @@
-a
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Real Estate Calculator</title>
+    
+    <meta name="theme-color" content="#92a3e1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="RE Calc">
+    
+    <link rel="icon" type="image/png" href="https://cdn3d.iconscout.com/3d/premium/thumb/house-with-financial-calculator-3d-icon-png-download-14089504.png">
+    <link rel="apple-touch-icon" href="https://cdn3d.iconscout.com/3d/premium/thumb/house-with-financial-calculator-3d-icon-png-download-14089504.png">
+    
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlJlYWwgRXN0YXRlIENhbGN1bGF0b3IiLAogICJzaG9ydF9uYW1lIjogIlJFIENhbGMiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2Y0ZjZmOSIsCiAgInRoZW1lX2NvbG9yIjogIiM5MmEzZTEiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2NkbjNkLmljb25zY291dC5jb20vM2QvcHJlbWl1bS90aHVtYi9ob3VzZS13aXRoLWZpbmFuY2lhbC1jYWxjdWxhdG9yLTNkLWljb24tcG5nLWRvd25sb2FkLTE0MDg5NTA0LnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIiwKICAgICAgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIiwKICAgIH0KICBdCn0=">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            /* Prevent native long-press text selectors to reinforce native app aesthetics */
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        /* Permit raw text entries inside operational text field boundaries */
+        input {
+            -webkit-user-select: text;
+            user-select: text;
+        }
+        
+        :root {
+            --brand-color: #92a3e1;
+            --brand-dark: #6d7fbf;
+            --brand-light: #f0f3ff;
+            --bg-main: #f5f7fb;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.5;
+            letter-spacing: -0.01em;
+            overflow-x: hidden;
+            /* Hard stop on alternative multi-touch browser behaviors */
+            touch-action: pan-x pan-y;
+        }
+
+        /* DYNAMIC SPLASH SCREEN OVERLAY STYLING */
+        #custom-splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999999;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            opacity: 1;
+            visibility: visible;
+        }
+        .splash-frame {
+            width: 414px;
+            height: 736px;
+            max-width: 100%;
+            max-height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .splash-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        
+        /* HEADER INTEGRATION */
+        header {
+            background-color: var(--card-bg);
+            box-shadow: 0 4px 20px rgba(146, 163, 225, 0.08);
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            gap: 15px;
+            border-bottom: 1px solid rgba(146, 163, 225, 0.15);
+        }
+        .branding {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+        .logo-container img {
+            height: 42px;
+            width: auto;
+            display: block;
+        }
+        .app-name-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.03em;
+        }
+        .version-tag {
+            background-color: var(--brand-light);
+            color: var(--brand-dark);
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border: 1px solid rgba(146, 163, 225, 0.3);
+        }
+
+        /* COMPACT NAVIGATION WITH RESTORED ICON MATRIX */
+        .header-nav {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .tab-radio {
+            position: absolute;
+            opacity: 0;
+            width: 0; height: 0;
+        }
+        .tab-label {
+            background: var(--card-bg);
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 8px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .tab-label img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+        .tab-label h3 {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .tab-label:hover {
+            border-color: var(--brand-color);
+            background-color: var(--brand-light);
+        }
+        
+        .tab-radio:checked + .tab-label {
+            background: #edf2f7;
+            border-color: #3182ce;
+            transform: translateY(1px);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.08);
+        }
+        .tab-radio:checked + .tab-label h3 {
+            color: #2b6cb0;
+        }
+
+        /* Content Container */
+        .container {
+            max-width: 1140px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        /* Interface Modules Layout */
+        .tool-section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+            margin-bottom: 30px;
+            display: none;
+            border: 1px solid #edf2f7;
+        }
+        
+        .section-title {
+            font-size: 1.35rem;
+            color: var(--text-main);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 12px;
+            font-weight: 700;
+        }
+        .section-title img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        /* Input Grid Elements */
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 35px;
+        }
+        
+        .input-group {
+            margin-bottom: 18px;
+        }
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-main);
+            font-size: 0.88rem;
+        }
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-prefix {
+            position: absolute;
+            left: 14px;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .input-wrapper input {
+            width: 100%;
+            padding: 12px 14px 12px 36px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 0.98rem;
+            transition: all 0.2s;
+            color: var(--text-main);
+            background-color: #f8fafc;
+        }
+        .input-wrapper input:focus {
+            outline: none;
+            border-color: var(--brand-color);
+            background-color: var(--card-bg);
+            box-shadow: 0 0 0 4px rgba(146, 163, 225, 0.15);
+        }
+        
+        /* Output Module presentation styles */
+        .results-panel {
+            background: #f8fafc;
+            border-radius: 14px;
+            padding: 25px;
+            border-left: 5px solid var(--brand-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 18px;
+        }
+        .results-panel.eligibility-panel { border-left-color: #38a169; }
+        .results-panel.price-panel { border-left-color: #805ad5; }
+        
+        .result-item {
+            border-bottom: 1px dashed #e2e8f0;
+            padding-bottom: 12px;
+        }
+        .result-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .result-label {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+        .result-value {
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+        .result-value.highlight { color: #3182ce; }
+        .result-value.success { color: #38a169; }
+        
+        /* Breakdown Card Matrices */
+        .price-split-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            background: var(--card-bg);
+        }
+        .breakdown-box {
+            background-color: #ffffff;
+            border: 1.5px dashed #e2e8f0;
+            border-radius: 12px;
+            padding: 18px;
+        }
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.92rem;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .breakdown-row:last-child { border-bottom: none; }
+        .breakdown-row span:last-child { font-weight: 700; color: var(--text-main);}
+
+        .note-box {
+            margin-top: 20px;
+            background-color: #fffff0;
+            border: 1px solid #fefcbf;
+            color: #744210;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            font-weight: 500;
+        }
+
+        /* MOBILE OPTIMIZATIONS */
+        @media (max-width: 868px) {
+            header {
+                flex-direction: column;
+                padding: 15px;
+                gap: 15px;
+            }
+            .header-nav {
+                width: 100%;
+                justify-content: space-between;
+                gap: 8px;
+            }
+            .tab-label {
+                flex: 1;
+                padding: 10px 4px;
+                flex-direction: column;
+                gap: 4px;
+                border-radius: 10px;
+            }
+            .tab-label h3 { font-size: 0.75rem; }
+            .tab-label img { width: 24px; height: 24px; }
+            .calculator-grid, .price-split-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="custom-splash-screen">
+        <div class="splash-frame">
+            <img src="https://i.postimg.cc/t45yHMVh/Real-Estate-Calculator.gif" alt="Real Estate App Initializing">
+        </div>
+    </div>
+
+    <header>
+        <div class="branding">
+            <div class="logo-container">
+                <img src="https://cdn3d.iconscout.com/3d/premium/thumb/house-with-financial-calculator-3d-icon-png-download-14089504.png" alt="Real Estate Calculator Asset Logo">
+            </div>
+            <h1 class="app-name-title">Real Estate Calculator</h1>
+            <div class="version-tag">Version 1.55</div>
+        </div>
+        
+        <nav class="header-nav">
+            <input type="radio" id="radio-emi" name="tool-tabs" class="tab-radio" checked>
+            <label for="radio-emi" class="tab-label" onclick="showSection('emi-calc')">
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/018/972/682/small/calculator-3d-application-icon-png.png" alt="EMI Icon">
+                <h3>EMI Calc</h3>
+            </label>
+            
+            <input type="radio" id="radio-eligibility" name="tool-tabs" class="tab-radio">
+            <label for="radio-eligibility" class="tab-label" onclick="showSection('eligibility-calc')">
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/036/585/013/small/a-3d-bank-and-hand-on-a-transparent-background-free-png.png" alt="Eligibility Icon">
+                <h3>Eligibility</h3>
+            </label>
+            
+            <input type="radio" id="radio-price" name="tool-tabs" class="tab-radio">
+            <label for="radio-price" class="tab-label" onclick="showSection('price-sheet')">
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/028/727/063/small/price-tag-sale-label-png.png" alt="Price Tag Icon">
+                <h3>Price Sheet</h3>
+            </label>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <section id="emi-calc" class="tool-section" style="display: block;">
+            <div class="section-title">
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/018/972/682/small/calculator-3d-application-icon-png.png" alt="">
+                <h2>EMI Calculator</h2>
+            </div>
+            <div class="calculator-grid">
+                <div class="calculator-inputs">
+                    <div class="input-group">
+                        <label for="emi-amount">Loan Amount</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">₹</span>
+                            <input type="text" id="emi-amount" placeholder="Enter loan amount" oninput="handleCurrencyInput(this, calculateEMI)">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="emi-interest">Interest Rate (p.a.)</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">%</span>
+                            <input type="number" step="0.05" id="emi-interest" placeholder="Enter interest rate" oninput="calculateEMI()">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="emi-tenure">Tenure (Years)</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">Yr</span>
+                            <input type="number" id="emi-tenure" placeholder="Enter tenure in years" oninput="calculateEMI()">
+                        </div>
+                    </div>
+                </div>
+                <div class="results-panel">
+                    <div class="result-item">
+                        <div class="result-label">Monthly EMI Installment</div>
+                        <div class="result-value highlight" id="render-emi">₹ 0</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Total Interest Payable</div>
+                        <div class="result-value" id="render-total-interest">₹ 0</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Total Amount (Principal + Interest)</div>
+                        <div class="result-value" id="render-total-amount">₹ 0</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="eligibility-calc" class="tool-section">
+            <div class="section-title">
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/036/585/013/small/a-3d-bank-and-hand-on-a-transparent-background-free-png.png" alt="">
+                <h2>Loan Eligibility Calculator</h2>
+            </div>
+            <div class="calculator-grid">
+                <div class="calculator-inputs">
+                    <div class="input-group">
+                        <label for="el-salary">Gross Monthly Income / Salary</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">₹</span>
+                            <input type="text" id="el-salary" placeholder="Enter gross monthly salary" oninput="handleCurrencyInput(this, calculateEligibility)">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="el-age">Age of Applicant</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">Yo</span>
+                            <input type="number" id="el-age" placeholder="Enter applicant age" min="18" max="70" oninput="calculateEligibility()">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="el-obligations">Existing Monthly EMI Obligations</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">₹</span>
+                            <input type="text" id="el-obligations" placeholder="Enter current EMIs if any" oninput="handleCurrencyInput(this, calculateEligibility)">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="el-interest">Expected Interest Rate (p.a.)</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">%</span>
+                            <input type="number" step="0.05" id="el-interest" placeholder="Enter expected interest rate" oninput="calculateEligibility()">
+                        </div>
+                    </div>
+                </div>
+                <div class="results-panel eligibility-panel">
+                    <div class="result-item">
+                        <div class="result-label">Maximum Tenure Allowed</div>
+                        <div class="result-value" id="render-el-tenure">0 Years</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Available FOIR Factors</div>
+                        <div class="result-value" id="render-el-foir">0%</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Max Affordable Monthly EMI Capability</div>
+                        <div class="result-value" id="render-el-emi">₹ 0</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Eligible Loan Amount Estimate</div>
+                        <div class="result-value success" id="render-el-loan">₹ 0</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="price-sheet" class="tool-section">
+            <div class="section-title">
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/028/727/063/small/price-tag-sale-label-png.png" alt="">
+                <h2>Bilateral Price Matrix Calculator</h2>
+            </div>
+            
+            <div class="price-split-grid">
+                <div class="calculator-inputs">
+                    <div class="input-group">
+                        <label for="ps-carpet">Carpet Area</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">Sq</span>
+                            <input type="number" id="ps-carpet" placeholder="Enter carpet area (sqft)" oninput="runPriceEngine('forward')">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="ps-rate">Per Sq. Ft. Price</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">₹</span>
+                            <input type="text" id="ps-rate" placeholder="Enter rate per sqft" oninput="handleCurrencyInput(this, function(){ runPriceEngine('forward'); })">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="ps-agreement">Agreement Value</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">₹</span>
+                            <input type="text" id="ps-agreement" placeholder="Enter agreement value" oninput="handleCurrencyInput(this, function(){ runPriceEngine('agreement-change'); })">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Car Parking Allowance</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">₹</span>
+                            <input type="text" id="ps-parking" value="10,00,000" oninput="handleCurrencyInput(this, function(){ runPriceEngine('forward'); })">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="results-panel price-panel">
+                    <div class="input-group" style="margin-bottom:5px;">
+                        <label for="ps-allin" style="color:var(--text-main); font-weight:700;">ALL-INCLUSIVE ESTIMATED PRICE</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix" style="color:var(--brand-dark)">₹</span>
+                            <input type="text" id="ps-allin" placeholder="Enter targeted all-in price" style="border-color:var(--brand-color); font-weight:700; color:var(--brand-dark); font-size:1.1rem" oninput="handleCurrencyInput(this, function(){ runPriceEngine('backward'); })">
+                        </div>
+                    </div>
+
+                    <div class="breakdown-box">
+                        <div class="breakdown-row">
+                            <span>Stamp Duty (6%):</span>
+                            <span id="lbl-stamp">₹ 0</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>GST (5%):</span>
+                            <span id="lbl-gst">₹ 0</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>Registration Charges:</span>
+                            <span>₹ 50,000</span>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>Other Charges:</span>
+                            <span id="lbl-other">₹ 0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="note-box">
+                *Dynamic Reverse Logic Engine: Editing the <strong>All-Inclusive Price</strong> or <strong>Agreement Value</strong> backward-extracts your dynamic base rates, maintaining constants: Registration (₹50k) and Development Outflows. Car Parking can be edited dynamically as needed.
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // ENGINE ADDITION: TIMEOUT ROUTINE FOR SPLASH SCREEN TERMINATION
+        window.addEventListener('DOMContentLoaded', () => {
+            // Generate random duration exclusively between 1000ms (1s) and 2000ms (2s)
+            const randomSplashDuration = Math.floor(Math.random() * (2000 - 1000 + 1)) + 1000;
+            
+            setTimeout(() => {
+                const splash = document.getElementById('custom-splash-screen');
+                if (splash) {
+                    // Trigger fading transition animations
+                    splash.style.opacity = '0';
+                    splash.style.visibility = 'hidden';
+                    
+                    // Completely flush node from active DOM to maintain device system execution performance
+                    setTimeout(() => {
+                        splash.remove();
+                    }, 400);
+                }
+            }, randomSplashDuration);
+        });
+
+        // App Zoom Control Lock: block wheel scaling and keyboard hotkeys (Ctrl + / Ctrl -)
+        document.addEventListener('wheel', function(e) {
+            if (e.ctrlKey) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && (e.key === '=' || e.key === '-' || e.key === '+' || e.key === '_')) {
+                e.preventDefault();
+            }
+        });
+
+        // Tab Display routing
+        function showSection(id) {
+            document.querySelectorAll('.tool-section').forEach(sec => sec.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+        }
+
+        // Clean currency values for calculation
+        function getPureNumber(val) {
+            let str = val.toString().replace(/,/g, '').trim();
+            return parseFloat(str) || 0;
+        }
+
+        // Indian Standard Currency formatting algorithm 
+        function formatIndianCurrency(num) {
+            if (isNaN(num) || num === null || num === 0) return "0";
+            let x = Math.round(num).toString();
+            let lastThree = x.substring(x.length - 3);
+            let otherBits = x.substring(0, x.length - 3);
+            if (otherBits !== '') {
+                lastThree = ',' + lastThree;
+            }
+            return otherBits.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+        }
+
+        // Formatter hookup for live inputs
+        function handleCurrencyInput(inputElement, callback) {
+            let selectionStart = inputElement.selectionStart;
+            let oldLength = inputElement.value.length;
+            
+            let pureNum = inputElement.value.replace(/[^0-9]/g, '');
+            if (pureNum === "") {
+                inputElement.value = "";
+                if(callback) callback();
+                return;
+            }
+            
+            let formatted = formatIndianCurrency(parseInt(pureNum, 10));
+            inputElement.value = formatted;
+            
+            let newLength = formatted.length;
+            selectionStart = selectionStart + (newLength - oldLength);
+            inputElement.setSelectionRange(selectionStart, selectionStart);
+
+            if(callback) callback();
+        }
+
+        // 1) EMI Engine Calculations
+        function calculateEMI() {
+            let principal = getPureNumber(document.getElementById('emi-amount').value);
+            let interestRate = parseFloat(document.getElementById('emi-interest').value) || 0;
+            let tenureYears = parseFloat(document.getElementById('emi-tenure').value) || 0;
+
+            if (principal === 0 || tenureYears === 0) {
+                document.getElementById('render-emi').innerText = "₹ 0";
+                document.getElementById('render-total-interest').innerText = "₹ 0";
+                document.getElementById('render-total-amount').innerText = "₹ 0";
+                return;
+            }
+
+            let monthlyInterest = (interestRate / 100) / 12;
+            let numberOfPayments = tenureYears * 12;
+
+            let emi = 0;
+            if (interestRate > 0) {
+                emi = (principal * monthlyInterest * Math.pow(1 + monthlyInterest, numberOfPayments)) / 
+                      (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
+            } else {
+                emi = principal / numberOfPayments;
+            }
+
+            let totalAmount = emi * numberOfPayments;
+            let totalInterest = totalAmount - principal;
+
+            document.getElementById('render-emi').innerText = "₹ " + formatIndianCurrency(emi);
+            document.getElementById('render-total-interest').innerText = "₹ " + formatIndianCurrency(totalInterest > 0 ? totalInterest : 0);
+            document.getElementById('render-total-amount').innerText = "₹ " + formatIndianCurrency(totalAmount);
+        }
+
+        // 2) Loan Qualification Eligibility Engine
+        function calculateEligibility() {
+            let grossSalary = getPureNumber(document.getElementById('el-salary').value);
+            let age = parseInt(document.getElementById('el-age').value) || 0;
+            let obligations = getPureNumber(document.getElementById('el-obligations').value);
+            let expectedInterest = parseFloat(document.getElementById('el-interest').value) || 0;
+
+            if (grossSalary === 0 || age === 0) {
+                document.getElementById('render-el-tenure').innerText = "0 Years";
+                document.getElementById('render-el-foir').innerText = "0%";
+                document.getElementById('render-el-emi').innerText = "₹ 0";
+                document.getElementById('render-el-loan').innerText = "₹ 0";
+                return;
+            }
+
+            let maxTenureYears = 60 - age;
+            if (maxTenureYears > 30) maxTenureYears = 30; 
+            if (maxTenureYears < 0) maxTenureYears = 0;
+
+            let foir = 0.40;
+            if (grossSalary >= 50000 && grossSalary < 100000) {
+                foir = 0.50;
+            } else if (grossSalary >= 100000) {
+                foir = 0.60;
+            }
+
+            let totalAffordableEmiAmount = (grossSalary * foir) - obligations;
+            if (totalAffordableEmiAmount < 0) totalAffordableEmiAmount = 0;
+
+            let eligibleLoan = 0;
+            if (totalAffordableEmiAmount > 0 && expectedInterest > 0 && maxTenureYears > 0) {
+                let r = (expectedInterest / 100) / 12;
+                let n = maxTenureYears * 12;
+                eligibleLoan = totalAffordableEmiAmount * (Math.pow(1 + r, n) - 1) / (r * Math.pow(1 + r, n));
+            }
+
+            document.getElementById('render-el-tenure').innerText = maxTenureYears + " Years";
+            document.getElementById('render-el-foir').innerText = (foir * 100) + "%";
+            document.getElementById('render-el-emi').innerText = "₹ " + formatIndianCurrency(totalAffordableEmiAmount);
+            document.getElementById('render-el-loan').innerText = "₹ " + formatIndianCurrency(eligibleLoan);
+        }
+
+        // 3) Bilateral Pricing Engine (Forward & Backward Matrices)
+        function runPriceEngine(direction) {
+            let carpet = parseFloat(document.getElementById('ps-carpet').value) || 0;
+            let parking = getPureNumber(document.getElementById('ps-parking').value);
+            let registration = 50000;
+            let otherCharges = carpet * 1180; 
+
+            if (carpet === 0 && direction !== 'backward') {
+                document.getElementById('lbl-stamp').innerText = "₹ 0";
+                document.getElementById('lbl-gst').innerText = "₹ 0";
+                document.getElementById('lbl-other').innerText = "₹ 0";
+                return;
+            }
+
+            if (direction === 'forward') {
+                let rate = getPureNumber(document.getElementById('ps-rate').value);
+                let agreementValue = carpet * rate;
+                
+                document.getElementById('ps-agreement').value = agreementValue > 0 ? formatIndianCurrency(agreementValue) : "";
+                executeTaxAndAllInCalculations(agreementValue, otherCharges, registration, parking);
+            } 
+            else if (direction === 'agreement-change') {
+                let agreementValue = getPureNumber(document.getElementById('ps-agreement').value);
+                let rate = carpet > 0 ? (agreementValue / carpet) : 0;
+                
+                document.getElementById('ps-rate').value = rate > 0 ? formatIndianCurrency(rate) : "";
+                executeTaxAndAllInCalculations(agreementValue, otherCharges, registration, parking);
+            } 
+            else if (direction === 'backward') {
+                let targetAllIn = getPureNumber(document.getElementById('ps-allin').value);
+                if (targetAllIn === 0) {
+                    document.getElementById('ps-agreement').value = "";
+                    document.getElementById('ps-rate').value = "";
+                    document.getElementById('lbl-stamp').innerText = "₹ 0";
+                    document.getElementById('lbl-gst').innerText = "₹ 0";
+                    document.getElementById('lbl-other').innerText = "₹ 0";
+                    return;
+                }
+                
+                // Formula: AllIn = (1.11 * Agreement) + 50000 + OtherCharges + Parking
+                let netTaxablePool = targetAllIn - registration - otherCharges - parking;
+                let derivedAgreement = netTaxablePool > 0 ? (netTaxablePool / 1.11) : 0;
+                let derivedRate = (derivedAgreement > 0 && carpet > 0) ? (derivedAgreement / carpet) : 0;
+
+                document.getElementById('ps-agreement').value = derivedAgreement > 0 ? formatIndianCurrency(derivedAgreement) : "";
+                document.getElementById('ps-rate').value = derivedRate > 0 ? formatIndianCurrency(derivedRate) : "";
+
+                let stampDuty = derivedAgreement * 0.06;
+                let gst = derivedAgreement * 0.05;
+
+                document.getElementById('lbl-stamp').innerText = "₹ " + formatIndianCurrency(stampDuty);
+                document.getElementById('lbl-gst').innerText = "₹ " + formatIndianCurrency(gst);
+                document.getElementById('lbl-other').innerText = "₹ " + formatIndianCurrency(otherCharges);
+            }
+        }
+
+        function executeTaxAndAllInCalculations(agreement, other, reg, park) {
+            let stampDuty = agreement * 0.06;
+            let gst = agreement * 0.05;
+            let totalAllIn = agreement + stampDuty + gst + reg + other + park;
+
+            document.getElementById('lbl-stamp').innerText = "₹ " + formatIndianCurrency(stampDuty);
+            document.getElementById('lbl-gst').innerText = "₹ " + formatIndianCurrency(gst);
+            document.getElementById('lbl-other').innerText = "₹ " + formatIndianCurrency(other);
+            document.getElementById('ps-allin').value = totalAllIn > 0 ? formatIndianCurrency(totalAllIn) : "";
+        }
+
+        // Inline Self-Sufficient Service Worker PWA Activator
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const swCode = `
+                    self.addEventListener('install', e => self.skipWaiting());
+                    self.addEventListener('activate', e => e.waitUntil(clients.claim()));
+                    self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => new Response('Offline'))));
+                `;
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const workerUrl = URL.createObjectURL(blob);
+                navigator.serviceWorker.register(workerUrl).catch(err => console.log('PWA execution ignored'));
+            });
+        }
+    </script>
+</body>
+</html>
